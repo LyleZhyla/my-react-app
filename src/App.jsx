@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function App() {
   const [form, setForm] = useState({
@@ -9,10 +9,8 @@ export default function App() {
     middleInitial: "",
     dob: null,
     nationality: "",
-    citizenship: "",
     sex: "",
     civilStatus: "",
-    street: "",
     brgy: "",
     province: "",
     city: "",
@@ -24,8 +22,8 @@ export default function App() {
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    const { id, value } = e.target;
-    setForm({ ...form, [id]: value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = (e) => {
@@ -43,10 +41,8 @@ export default function App() {
       middleInitial: "",
       dob: null,
       nationality: "",
-      citizenship: "",
       sex: "",
       civilStatus: "",
-      street: "",
       brgy: "",
       province: "",
       city: "",
@@ -56,36 +52,56 @@ export default function App() {
     setError("");
   };
 
-  const Field = ({ label, children }) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-      <label style={{ fontWeight: "bold" }}>{label}</label>
-      {children}
-    </div>
-  );
-
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
-      <h1 style={{ textAlign: "center" }}>Student Registration Form</h1>
+    <div style={{ fontFamily: "Arial, sans-serif" }}>
+      {/* ✅ Sticky Navbar */}
+      <nav className="navbar">
+        <div className="nav-brand">Student Portal</div>
+        <ul className="nav-links">
+          <li>
+            <a href="#form">Registration</a>
+          </li>
+          <li>
+            <a href="#records">Records</a>
+          </li>
+        </ul>
+      </nav>
+
+      <h1 style={{ textAlign: "center", marginTop: "80px" }}>
+        Student Registration Form
+      </h1>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="form-grid">
-        <Field label="Last Name:">
-          <input id="lastName" value={form.lastName} onChange={handleChange} />
-        </Field>
-
-        <Field label="First Name:">
-          <input id="firstName" value={form.firstName} onChange={handleChange} />
-        </Field>
-
-        <Field label="Middle Initial:">
+      <form onSubmit={handleSubmit} className="form-grid" id="form">
+        <div>
+          <label>Last Name: <span style={{ color: "red" }}>*</span></label>
           <input
-            id="middleInitial"
+            name="lastName"
+            value={form.lastName}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label>First Name: <span style={{ color: "red" }}>*</span></label>
+          <input
+            name="firstName"
+            value={form.firstName}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label>Middle Initial:</label>
+          <input
+            name="middleInitial"
             value={form.middleInitial}
             onChange={handleChange}
           />
-        </Field>
+        </div>
 
-        <Field label="Date of Birth:">
+        <div>
+          <label>Date of Birth: <span style={{ color: "red" }}>*</span></label>
           <DatePicker
             selected={form.dob}
             onChange={(date) => setForm({ ...form, dob: date })}
@@ -93,75 +109,86 @@ export default function App() {
             placeholderText="MM/DD/YYYY"
             showYearDropdown
             scrollableYearDropdown
+            yearDropdownItemNumber={100}
+            minDate={new Date(1900, 0, 1)}
+            maxDate={new Date(2025, 11, 31)}
           />
-        </Field>
+        </div>
 
-        <Field label="Nationality:">
+        <div>
+          <label>Nationality: <span style={{ color: "red" }}>*</span></label>
           <input
-            id="nationality"
+            name="nationality"
             value={form.nationality}
             onChange={handleChange}
           />
-        </Field>
+        </div>
 
-        <Field label="Citizenship:">
+        <div>
+          <label>Citizenship: <span style={{ color: "red" }}>*</span></label>
           <input
-            id="citizenship"
+            name="citizenship"
             value={form.citizenship}
             onChange={handleChange}
           />
-        </Field>
+        </div>
 
-        <Field label="Sex:">
-          <select id="sex" value={form.sex} onChange={handleChange}>
+        <div>
+          <label>Sex: <span style={{ color: "red" }}>*</span></label>
+          <select name="sex" value={form.sex} onChange={handleChange}>
             <option value="">-- Select --</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
           </select>
-        </Field>
+        </div>
 
-        <Field label="Civil Status:">
+        <div>
+          <label>Civil Status: <span style={{ color: "red" }}>*</span></label>
           <select
-            id="civilStatus"
+            name="civilStatus"
             value={form.civilStatus}
             onChange={handleChange}
           >
             <option value="">-- Select --</option>
-            <option>Single</option>
-            <option>Married</option>
-            <option>Widowed</option>
-            <option>Separated</option>
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+            <option value="Widowed">Widowed</option>
+            <option value="Separated">Separated</option>
           </select>
-        </Field>
+        </div>
 
-        <Field label="Street:">
-          <input id="street" value={form.street} onChange={handleChange} />
-        </Field>
+        <div>
+          <label>Street: <span style={{ color: "red" }}>*</span></label>
+          <input name="street" value={form.street} onChange={handleChange} />
+        </div>
 
-        <Field label="Barangay:">
-          <input id="brgy" value={form.brgy} onChange={handleChange} />
-        </Field>
+        <div>
+          <label>Barangay: <span style={{ color: "red" }}>*</span></label>
+          <input name="brgy" value={form.brgy} onChange={handleChange} />
+        </div>
 
-        <Field label="Province:">
-          <input id="province" value={form.province} onChange={handleChange} />
-        </Field>
+        <div>
+          <label>Province: <span style={{ color: "red" }}>*</span></label>
+          <input name="province" value={form.province} onChange={handleChange} />
+        </div>
 
-        <Field label="City/Municipality:">
-          <input id="city" value={form.city} onChange={handleChange} />
-        </Field>
+        <div>
+          <label>City/Municipality: <span style={{ color: "red" }}>*</span></label>
+          <input name="city" value={form.city} onChange={handleChange} />
+        </div>
 
-        <Field label="Country:">
-          <input id="country" value={form.country} onChange={handleChange} />
-        </Field>
+        <div>
+          <label>Country: <span style={{ color: "red" }}>*</span></label>
+          <input name="country" value={form.country} onChange={handleChange} />
+        </div>
 
-        <Field label="Zip Code:">
-          <input id="zip" value={form.zip} onChange={handleChange} />
-        </Field>
+        <div>
+          <label>Zip Code: <span style={{ color: "red" }}>*</span></label>
+          <input name="zip" value={form.zip} onChange={handleChange} />
+        </div>
 
-        {error && (
-          <p className="error-message">{error}</p>
-        )}
+        {error && <p className="error-message">{error}</p>}
 
         <button type="submit" className="save-btn">
           Save
@@ -169,43 +196,38 @@ export default function App() {
       </form>
 
       {/* Table */}
-      <div style={{ marginTop: "40px", maxWidth: "1100px", marginInline: "auto" }}>
+      <div
+        id="records"
+        style={{ marginTop: "40px", maxWidth: "1100px", marginInline: "auto" }}
+      >
         <h2>Saved Records</h2>
         {records.length === 0 ? (
           <p>No records yet.</p>
         ) : (
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginTop: "10px",
-              fontSize: "14px",
-            }}
-          >
+          <table>
             <thead>
-              <tr style={{ background: "#007BFF", color: "white" }}>
-                <th style={{ border: "1px solid #ccc", padding: "5px" }}>Name</th>
-                <th style={{ border: "1px solid #ccc", padding: "5px" }}>DOB</th>
-                <th style={{ border: "1px solid #ccc", padding: "5px" }}>Sex</th>
-                <th style={{ border: "1px solid #ccc", padding: "5px" }}>Citizenship</th>
-                <th style={{ border: "1px solid #ccc", padding: "5px" }}>Civil Status</th>
-                <th style={{ border: "1px solid #ccc", padding: "5px" }}>Address</th>
+              <tr>
+                <th>Name</th>
+                <th>DOB</th>
+                <th>Sex</th>
+                <th>Nationality</th>
+                <th>Civil Status</th>
+                <th>Address</th>
               </tr>
             </thead>
             <tbody>
               {records.map((r) => (
                 <tr key={r.id}>
-                  <td style={{ border: "1px solid #ccc", padding: "5px" }}>
+                  <td>
                     {r.lastName}, {r.firstName} {r.middleInitial}
                   </td>
-                  <td style={{ border: "1px solid #ccc", padding: "5px" }}>
-                    {r.dob ? r.dob.toLocaleDateString() : ""}
-                  </td>
-                  <td style={{ border: "1px solid #ccc", padding: "5px" }}>{r.sex}</td>
-                  <td style={{ border: "1px solid #ccc", padding: "5px" }}>{r.citizenship}</td>
-                  <td style={{ border: "1px solid #ccc", padding: "5px" }}>{r.civilStatus}</td>
-                  <td style={{ border: "1px solid #ccc", padding: "5px" }}>
-                    {r.street}, {r.brgy}, {r.city}, {r.province}, {r.country} {r.zip}
+                  <td>{r.dob ? r.dob.toLocaleDateString() : ""}</td>
+                  <td>{r.sex}</td>
+                  <td>{r.nationality}</td>
+                  <td>{r.civilStatus}</td>
+                  <td>
+                    {r.brgy}, {r.city}, {r.province}, {r.country}{" "}
+                    {r.zip}
                   </td>
                 </tr>
               ))}
@@ -213,46 +235,6 @@ export default function App() {
           </table>
         )}
       </div>
-
-      {/* CSS inside */}
-      <style>{`
-        .form-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 20px;
-          max-width: 1100px;
-          margin: 0 auto;
-          background: #f9f9f9;
-          padding: 25px;
-          border-radius: 10px;
-          border: 1px solid #ccc;
-        }
-        @media (min-width: 600px) {
-          .form-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-        @media (min-width: 900px) {
-          .form-grid {
-            grid-template-columns: repeat(3, 1fr);
-          }
-        }
-        .save-btn {
-          grid-column: 1 / -1;
-          padding: 12px;
-          background: #007BFF;
-          color: white;
-          border: none;
-          border-radius: 6px;
-          cursor: pointer;
-          font-size: 16px;
-        }
-        .error-message {
-          grid-column: 1 / -1;
-          color: red;
-          font-weight: bold;
-        }
-      `}</style>
     </div>
   );
 }
