@@ -14,7 +14,7 @@
   top: 0;
   left: 0;
   right: 0;
-  background: #007BFF;
+  background-color: #0056b3; /* darker blue */
   color: white;
   display: flex;  
   justify-content: space-between;
@@ -22,6 +22,12 @@
   padding: 12px 20px;
   z-index: 1000;
 }
+
+.navbar a,
+.navbar .nav-brand {
+  color: #ffffff; /* white text */
+}
+
 .nav-brand {
   font-size: 20px;
   font-weight: bold;
@@ -83,7 +89,7 @@
 .save-btn {
   grid-column: 1 / -1;
   padding: 12px;
-  background: #007bff;
+  background: #0056b3;
   color: white;
   border: none;
   border-radius: 6px;
@@ -92,7 +98,7 @@
   transition: background 0.3s;
 }
 .save-btn:hover {
-  background: #0056b3;
+  background: #0378f5;
 }
 
 /* 🌐 Error Message */

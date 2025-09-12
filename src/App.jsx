@@ -85,7 +85,7 @@ export default function App() {
     e.preventDefault();
 
     if (!form.firstName || !form.lastName || !form.dob) {
-      setError("Please complete required fields (First Name, Last Name, DOB).");
+      setError("Please complete required fields.");
       return;
     }
 
