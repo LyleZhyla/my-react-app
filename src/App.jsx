@@ -2,6 +2,61 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+/* ---------------- Accessible Components ---------------- */
+
+// 🔹 Accessible Button
+function AccessibleButton({ children, onClick, type = "button" }) {
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      className="save-btn"
+      aria-pressed="false"
+    >
+      {children}
+    </button>
+  );
+}
+
+// 🔹 Accessible Input
+function AccessibleInput({ label, name, value, onChange, required = false }) {
+  const inputId = `${name}-id`;
+
+  return (
+    <div>
+      <label htmlFor={inputId}>
+        {label} {required && <span style={{ color: "red" }}>*</span>}
+      </label>
+      <input
+        id={inputId}
+        name={name}
+        value={value}
+        onChange={onChange}
+        aria-required={required}
+      />
+    </div>
+  );
+}
+
+// 🔹 Accessible Navigation
+function AccessibleNav() {
+  return (
+    <nav className="navbar" aria-label="Main Navigation">
+      <div className="nav-brand">Student Portal</div>
+      <ul className="nav-links">
+        <li>
+          <a href="#form">Registration</a>
+        </li>
+        <li>
+          <a href="#records">Records</a>
+        </li>
+      </ul>
+    </nav>
+  );
+}
+
+/* ---------------- Main App ---------------- */
+
 export default function App() {
   const [form, setForm] = useState({
     lastName: "",
@@ -54,18 +109,7 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: "Arial, sans-serif" }}>
-      {/* ✅ Sticky Navbar */}
-      <nav className="navbar">
-        <div className="nav-brand">Student Portal</div>
-        <ul className="nav-links">
-          <li>
-            <a href="#form">Registration</a>
-          </li>
-          <li>
-            <a href="#records">Records</a>
-          </li>
-        </ul>
-      </nav>
+      <AccessibleNav />
 
       <h1 style={{ textAlign: "center", marginTop: "80px" }}>
         Student Registration Form
@@ -73,36 +117,35 @@ export default function App() {
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="form-grid" id="form">
-        <div>
-          <label>Last Name: <span style={{ color: "red" }}>*</span></label>
-          <input
-            name="lastName"
-            value={form.lastName}
-            onChange={handleChange}
-          />
-        </div>
+        <AccessibleInput
+          label="Last Name"
+          name="lastName"
+          value={form.lastName}
+          onChange={handleChange}
+          required
+        />
+
+        <AccessibleInput
+          label="First Name"
+          name="firstName"
+          value={form.firstName}
+          onChange={handleChange}
+          required
+        />
+
+        <AccessibleInput
+          label="Middle Initial"
+          name="middleInitial"
+          value={form.middleInitial}
+          onChange={handleChange}
+        />
 
         <div>
-          <label>First Name: <span style={{ color: "red" }}>*</span></label>
-          <input
-            name="firstName"
-            value={form.firstName}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div>
-          <label>Middle Initial:</label>
-          <input
-            name="middleInitial"
-            value={form.middleInitial}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div>
-          <label>Date of Birth: <span style={{ color: "red" }}>*</span></label>
+          <label htmlFor="dob">
+            Date of Birth <span style={{ color: "red" }}>*</span>
+          </label>
           <DatePicker
+            id="dob"
             selected={form.dob}
             onChange={(date) => setForm({ ...form, dob: date })}
             dateFormat="MM/dd/yyyy"
@@ -115,27 +158,25 @@ export default function App() {
           />
         </div>
 
-        <div>
-          <label>Nationality: <span style={{ color: "red" }}>*</span></label>
-          <input
-            name="nationality"
-            value={form.nationality}
-            onChange={handleChange}
-          />
-        </div>
+        <AccessibleInput
+          label="Nationality"
+          name="nationality"
+          value={form.nationality}
+          onChange={handleChange}
+          required
+        />
 
         <div>
-          <label>Citizenship: <span style={{ color: "red" }}>*</span></label>
-          <input
-            name="citizenship"
-            value={form.citizenship}
+          <label htmlFor="sex">
+            Sex <span style={{ color: "red" }}>*</span>
+          </label>
+          <select
+            id="sex"
+            name="sex"
+            value={form.sex}
             onChange={handleChange}
-          />
-        </div>
-
-        <div>
-          <label>Sex: <span style={{ color: "red" }}>*</span></label>
-          <select name="sex" value={form.sex} onChange={handleChange}>
+            aria-required="true"
+          >
             <option value="">-- Select --</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
@@ -144,11 +185,15 @@ export default function App() {
         </div>
 
         <div>
-          <label>Civil Status: <span style={{ color: "red" }}>*</span></label>
+          <label htmlFor="civilStatus">
+            Civil Status <span style={{ color: "red" }}>*</span>
+          </label>
           <select
+            id="civilStatus"
             name="civilStatus"
             value={form.civilStatus}
             onChange={handleChange}
+            aria-required="true"
           >
             <option value="">-- Select --</option>
             <option value="Single">Single</option>
@@ -158,41 +203,49 @@ export default function App() {
           </select>
         </div>
 
-        <div>
-          <label>Street: <span style={{ color: "red" }}>*</span></label>
-          <input name="street" value={form.street} onChange={handleChange} />
-        </div>
+        <AccessibleInput
+          label="Barangay"
+          name="brgy"
+          value={form.brgy}
+          onChange={handleChange}
+          required
+        />
 
-        <div>
-          <label>Barangay: <span style={{ color: "red" }}>*</span></label>
-          <input name="brgy" value={form.brgy} onChange={handleChange} />
-        </div>
+        <AccessibleInput
+          label="Province"
+          name="province"
+          value={form.province}
+          onChange={handleChange}
+          required
+        />
 
-        <div>
-          <label>Province: <span style={{ color: "red" }}>*</span></label>
-          <input name="province" value={form.province} onChange={handleChange} />
-        </div>
+        <AccessibleInput
+          label="City/Municipality"
+          name="city"
+          value={form.city}
+          onChange={handleChange}
+          required
+        />
 
-        <div>
-          <label>City/Municipality: <span style={{ color: "red" }}>*</span></label>
-          <input name="city" value={form.city} onChange={handleChange} />
-        </div>
+        <AccessibleInput
+          label="Country"
+          name="country"
+          value={form.country}
+          onChange={handleChange}
+          required
+        />
 
-        <div>
-          <label>Country: <span style={{ color: "red" }}>*</span></label>
-          <input name="country" value={form.country} onChange={handleChange} />
-        </div>
-
-        <div>
-          <label>Zip Code: <span style={{ color: "red" }}>*</span></label>
-          <input name="zip" value={form.zip} onChange={handleChange} />
-        </div>
+        <AccessibleInput
+          label="Zip Code"
+          name="zip"
+          value={form.zip}
+          onChange={handleChange}
+          required
+        />
 
         {error && <p className="error-message">{error}</p>}
 
-        <button type="submit" className="save-btn">
-          Save
-        </button>
+        <AccessibleButton type="submit">Save</AccessibleButton>
       </form>
 
       {/* Table */}
@@ -226,8 +279,7 @@ export default function App() {
                   <td>{r.nationality}</td>
                   <td>{r.civilStatus}</td>
                   <td>
-                    {r.brgy}, {r.city}, {r.province}, {r.country}{" "}
-                    {r.zip}
+                    {r.brgy}, {r.city}, {r.province}, {r.country} {r.zip}
                   </td>
                 </tr>
               ))}
